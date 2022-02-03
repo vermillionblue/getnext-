@@ -6,7 +6,7 @@
 /*   By: danisanc <danisanc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/24 10:44:11 by alessa            #+#    #+#             */
-/*   Updated: 2022/02/02 23:57:09 by danisanc         ###   ########.fr       */
+/*   Updated: 2022/02/03 20:00:25 by danisanc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -153,6 +153,26 @@ void	*ft_memmove( void *dst, const void *src, size_t len)
 	return (dst);
 }
 
+size_t	ft_strlcpy(char	*dst, const char	*src, size_t dstsize)
+{
+	size_t	i;
+	size_t	k;
+
+	k = 0;
+	i = 0;
+	i = ft_strlen((char *)src);
+	if (dstsize == 0)
+		return (i);
+	while (src[k] != '\0' && dstsize > 1)
+	{
+		dst[k] = src[k];
+		k++;
+		dstsize--;
+	}
+	dst[k] = '\0';
+	return (i);
+}
+
 char	*get_next_line(int fd)
 {
 	int i;
@@ -176,46 +196,41 @@ char	*get_next_line(int fd)
 			{
 				if (line[x] == '\n')
 				{
-					//printf("buff1%s\n", buff);
-					ft_memmove(buff + x + 1, buff, i);
-					//printf("buff2%s\n", buff);
-					if (temp)
+					if (temp != NULL)
 					{
-						
 						line = ft_strjoin(temp, line);
 						
-						ft_memmove(buff + x + 1, buff + x + 1, i);
-					
-						return (line);
 					}
-					
-					
-					temp = ft_strdup(line + x + 2);
-					line[x + 1] = '\0';
-				
-					return(line);
-					
+					else
+					{
+						temp = ft_strdup(line);
 
-					
+					}
+					line = ft_strjoin(line, "\0");
+					return(line);
 				}
 				x++;
 			}
 		}
 		else
 		{
+			if (i == 0 && temp != NULL)
+			{
+				return(temp);
+			}
 			if(temp != NULL)
 			{
+				
 				temp2 = ft_strdup(temp);
 				temp = ft_strjoin(temp2, line);
+				
+			
 			}
 			else
 			{
 				temp = ft_strdup(line);
 			}
 		}
-		if (i == 0)
-			break;
-
 	}
 	
 	return(line);
