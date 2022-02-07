@@ -6,7 +6,7 @@
 /*   By: danisanc <danisanc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/24 10:44:11 by alessa            #+#    #+#             */
-/*   Updated: 2022/02/03 20:00:25 by danisanc         ###   ########.fr       */
+/*   Updated: 2022/02/07 13:12:51 by danisanc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,31 +27,6 @@ size_t	ft_strlen(const char *str)
 		i++;
 	}
 	return (i);
-}
-
-size_t	ft_strlcat( char	*dst, const char	*src, size_t dstsize)
-{
-	size_t	i;
-	size_t	k;
-	size_t	j;
-
-	j = 0;
-	k = 0;
-	i = 0;
-	i = ft_strlen((char *)src);
-	j = ft_strlen(dst);
-	if (dstsize == 0)
-		return (i);
-	if (dstsize < j + 1)
-		return (i + dstsize);
-	while (src[k] != '\0' && (dstsize - j - 1) > 0)
-	{
-		dst[j + k] = src[k];
-		k++;
-		dstsize--;
-	}
-	dst[j + k] = '\0';
-	return (i + j);
 }
 
 char	*ft_strjoin(char const *s1, char const *s2)
@@ -118,132 +93,100 @@ char	*ft_strdup(const char *s1)
 	return (p);
 }
 
-void copyinfo(char *buff, char* line, int i)
+void	ft_memmove(char *dst, char *src, size_t len)
 {
-	printf("i %d", i );
-	//printf("backtrack %s", buff );
-	printf("\n");
+	while (len--)
+		*dst++ = *src++;
 }
 
-void	*ft_memmove( void *dst, const void *src, size_t len)
+char	*read_fd(int fd, char *file)
 {
-	unsigned char	*p;
-	unsigned char	*d;
-	size_t			i;
-
-	d = (unsigned char *)dst;
-	p = (unsigned char *)src;
-	if (!d && !p)
-		return (NULL);
-	if (d > p)
-	{
-		i = len - 1;
-		while ((int)i >= 0)
-		{
-			d[i] = p[i];
-			i--;
-		}
-	}
-	else
-	{
-		i = -1;
-		while (++i < len)
-			d[i] = p[i];
-	}
-	return (dst);
-}
-
-size_t	ft_strlcpy(char	*dst, const char	*src, size_t dstsize)
-{
-	size_t	i;
-	size_t	k;
-
-	k = 0;
-	i = 0;
-	i = ft_strlen((char *)src);
-	if (dstsize == 0)
-		return (i);
-	while (src[k] != '\0' && dstsize > 1)
-	{
-		dst[k] = src[k];
-		k++;
-		dstsize--;
-	}
-	dst[k] = '\0';
-	return (i);
-}
-
-char	*get_next_line(int fd)
-{
+	char buff[BUFFER_SIZE + 1];
 	int i;
 	int	x;
 
 	x = 0;
 	i = 1;
-	char *line;
-	char *temp = NULL;
-	char *temp2;
-	static char buff[BUFFER_SIZE + 1];
-	while (i > 0)
+	while(i > 0)
 	{
 		i = read(fd, buff, BUFFER_SIZE);
 		buff[i] = '\0';
-		line = ft_strdup(buff);
-		//printf("%s____", line);
-		if (ft_strchr(line, '\n'))
+		if (i == 0 && file[0])
 		{
-			while (line[x])
+			file = ft_strjoin(file, "\0");
+			return (file);
+		}
+			
+		if (!(ft_strchr(buff, '\n')))
+		{
+			if (file == NULL)
+				file = ft_strdup(buff);
+			else
+				file = ft_strjoin(file, buff);
+		}
+		else
+		{
+			while(buff[x])
 			{
-				if (line[x] == '\n')
+				if (buff[x] == '\n')
 				{
-					if (temp != NULL)
-					{
-						line = ft_strjoin(temp, line);
-						
-					}
+					if (file != NULL)
+						file = ft_strjoin(file, buff);
 					else
-					{
-						temp = ft_strdup(line);
-
-					}
-					line = ft_strjoin(line, "\0");
-					return(line);
+						file = ft_strdup(buff);
+					return (file);	
 				}
 				x++;
 			}
 		}
-		else
-		{
-			if (i == 0 && temp != NULL)
-			{
-				return(temp);
-			}
-			if(temp != NULL)
-			{
-				
-				temp2 = ft_strdup(temp);
-				temp = ft_strjoin(temp2, line);
-				
-			
-			}
-			else
-			{
-				temp = ft_strdup(line);
-			}
-		}
 	}
+	return (NULL);
+}
+
+
+
+char	*tilnewline(char *file)
+{
+	char	*line;
+	int		i;
+
+	i = 0;
+	while(file[i] != '\n' && file[i])
+		i++;
+	line = ft_strdup(file);
+	line[i + 1] = '\0';
+	ft_memmove(file, file + i + 1, ft_strlen(file) - i);
+	return (line);
+}
+
+char	*get_next_line(int fd)
+{
+	static char *file;
+	char *line;
+	if (fd < 0)	
+		return (NULL);
 	
+	file = read_fd(fd, file);
+
+
+	if (!(ft_strchr(file, '\n')))
+	{
+		line = ft_strdup(file);
+		line[ft_strlen(file)] = '\0';
+		free(file);
+	}
+	else
+		line = tilnewline(file);
 	return(line);
 }
 
-int main (void)
-{
- int fd = open("miau.txt" , O_RDONLY);
- 
- printf("%s" , get_next_line(fd));
- printf("%s" , get_next_line(fd));
- printf("%s" , get_next_line(fd));
- printf("%s" , get_next_line(fd));
+// int    main()
+// {
+//     int        fd;
+//     char    *ret;
 
-
-}
+//     printf("===============================================================\n");
+//     fd = open("miau.txt", O_RDONLY);
+// 	printf("%s", get_next_line(fd));
+// 	printf("%s", get_next_line(fd));
+// }
