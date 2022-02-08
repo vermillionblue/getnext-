@@ -6,14 +6,14 @@
 /*   By: danisanc <danisanc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/31 19:21:13 by danisanc          #+#    #+#             */
-/*   Updated: 2022/02/07 13:07:37 by danisanc         ###   ########.fr       */
+/*   Updated: 2022/02/08 19:53:21 by danisanc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef FT_PRINTF_H
 # define FT_PRINTF_H
 
-//# define BUFFER_SIZE 42
+# define BUFFER_SIZE 1
 
 # include <stdarg.h>
 # include <stdio.h>
