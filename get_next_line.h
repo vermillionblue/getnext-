@@ -3,14 +3,15 @@
 /*                                                        :::      ::::::::   */
 /*   get_next_line.h                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: alessa <alessa@student.42.fr>              +#+  +:+       +#+        */
+/*   By: danisanc <danisanc@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/31 19:21:13 by danisanc          #+#    #+#             */
-/*   Updated: 2022/02/12 22:17:36 by alessa           ###   ########.fr       */
+/*   Updated: 2022/02/12 22:17:36 by danisanc          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef GET_NEXT_LINE_H
+# define GET_NEXT_LINE_H
 
 # define BUFFER_SIZE 42
 
