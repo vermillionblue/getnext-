@@ -3,14 +3,24 @@
 /*                                                        :::      ::::::::   */
 /*   get_next_line_utils.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: danisanc <danisanc@student.42.fr>          +#+  +:+       +#+        */
+/*   By: alessa <alessa@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/08 18:42:21 by danisanc          #+#    #+#             */
-/*   Updated: 2022/02/08 18:49:51 by danisanc         ###   ########.fr       */
+/*   Updated: 2022/02/12 22:05:22 by alessa           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "get_next_line.h"
+
+size_t	ft_strlen(const char *str)
+{
+	size_t	i;
+
+	i = 0;
+	while (str[i] != '\0')
+		i++;
+	return (i);
+}
 
 char	*ft_strdup(const char *s1)
 {
@@ -28,25 +38,6 @@ char	*ft_strdup(const char *s1)
 	}
 	p[k] = '\0';
 	return (p);
-}
-
-void	ft_memmove(char *dst, char *src, size_t len)
-{
-	while (len--)
-		*dst++ = *src++;
-}
-
-size_t	ft_strlen(const char *str)
-{
-	size_t	i;
-
-	i = 0;
-	while (*str != '\0')
-	{
-		str++;
-		i++;
-	}
-	return (i);
 }
 
 char	*ft_strjoin(char const *s1, char const *s2)
@@ -76,7 +67,6 @@ char	*ft_strjoin(char const *s1, char const *s2)
 	return (p);
 }
 
-
 char	*ft_strchr(const char *s, int c)
 {
 	int			i;
@@ -94,4 +84,20 @@ char	*ft_strchr(const char *s, int c)
 		k++;
 	}
 	return (NULL);
+}
+
+char	*copynewline(const char *s1, int i)
+{
+	int		k;
+	char	*p;
+
+	k = -1;
+	p = malloc(i + 2);
+	if (!p)
+		return (NULL);
+	while (s1[++k] != '\n')
+		p[k] = s1[k];
+	p[k] = '\n';
+	p[k + 1] = '\0';
+	return (p);
 }
