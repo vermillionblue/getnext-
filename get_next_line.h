@@ -5,13 +5,14 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: alessa <alessa@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/02/12 23:54:40 by alessa            #+#    #+#             */
-/*   Updated: 2022/02/12 23:57:59 by alessa           ###   ########.fr       */
+/*   Created: 2022/02/13 00:02:14 by alessa            #+#    #+#             */
+/*   Updated: 2022/02/13 00:02:44 by alessa           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef GET_NEXT_LINE_H
 # define GET_NEXT_LINE_H
+
 # define BUFFER_SIZE 42
 
 # include <stdarg.h>
